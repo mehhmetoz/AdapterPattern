@@ -1,0 +1,37 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+spring:
+  application:
+    n: rest-soap-adapter
+  jackson:
+    default-property-inclusion: NON_NULL
+    serialization:
+      write-dates-as-timestamps: false
+
+# SOAP Service Configuration
+soap:
+  calculator:
+    endpoint: http://localhost:8080/calculator  # Mock service for development
+    timeout:
+      connect: 30000  # 30 seconds
+      request: 60000  # 60 seconds
+
+# Actuator Configuration
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+
+# Logging Configuration
+logging:
+  level:
+    org.example.rest: DEBUG
+    org.springframework.web: INFO
+    root: INFO
