@@ -29,6 +29,63 @@ rest-soap-adapter/
         └── wsimport/
             └── org/example/webservice/client/
 ```
+## Step-by-Step Setup
+### 1. Create Maven Project
+```bash
+mvn archetype:generate -DgroupId=com.example -DartifactId=wsdl-jaxws-client \
+    -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
+cd wsdl-jaxws-client
+```
+
+### 2. Replace pom.xml
+Use the JAX-WS specific pom.xml from the artifact above.
+
+### 3. Create Directory Structure
+```bash
+mkdir -p src/main/resources/wsdl
+mkdir -p src/test/java/com/example/client
+```
+
+### 4. Add WSDL Files (if using local files)
+```bash
+# Place your WSDL files in src/main/resources/wsdl/
+cp your-service.wsdl src/main/resources/wsdl/
+```
+
+### 5. Generate Classes
+```bash
+mvn clean generate-sources
+```
+
+### 6. Check Generated Classes
+```bash
+# Generated classes will be in:
+ls target/generated-sources/wsimport/
+```
+### 7. Compile and Run
+```bash
+mvn compile
+mvn exec:java
+```
+### Manual wsimport (for testing)
+```bash
+# If you have JDK 8
+wsimport -keep -s target/generated-sources/wsimport \
+  -p com.example.test http://example.com/service?wsdl
+
+# If you have JDK 11+, use Maven plugin instead
+```
+## Common wsimport Parameters
+
+| Parameter | Description | Example |
+|-----------|-------------|---------|
+| `-keep` | Keep generated source files | `<keep>true</keep>` |
+| `-verbose` | Enable verbose output | `<verbose>true</verbose>` |
+| `-p` | Package name for generated classes | `<packageName>com.example</packageName>` |
+| `-s` | Source destination directory | `<sourceDestDir>target/generated</sourceDestDir>` |
+| `-d` | Destination directory for class files | Not commonly used with Maven |
+| `-extension` | Enable JAX-WS 2.0 extensions | `<extension>true</extension>` |
+| `-target` | Generate code for JAX-WS version | `<target>2.0</target>` |
 
 ## Configuration Files
 
